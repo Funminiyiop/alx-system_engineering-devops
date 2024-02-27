@@ -2,4 +2,5 @@
 # Start Apache so as to return a
 # page conatining Hello Holberton
 
-/etc/init.d/apache2 start
+service apache2 start
+sudo sed -i "/Listen 80/a NameVirtualHost \*\:80" /etc/apache2/ports.conf
