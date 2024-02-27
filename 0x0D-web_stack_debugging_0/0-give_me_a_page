@@ -3,5 +3,3 @@
 # page conatining Hello Holberton
 
 sudo service apache2 start
-
-
