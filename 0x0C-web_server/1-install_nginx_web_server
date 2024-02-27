@@ -4,11 +4,16 @@
 # When querying Nginx at its root / with a GET request (requesting a page) 
 # using curl, it must return a page that contains the string Hello World!
 
-echo -e "Updating and installing Nginx.\n"
+blue='\e[1;34m'
+brown='\e[0;33m'
+green='\e[1;32m'
+reset='\033[0m'
+
+echo -e "${blue}Updating and installing ${brown}Nginx${blue}.${reset}\n"
 sudo apt-get update -y -qq && \
 	 sudo apt-get install nginx -y
 
-echo -e "\nSetting up some minor stuff.\n"
+echo -e "\n${blue}Setting up some minor stuff.${reset}\n"
 
 # starting nginx service
 sudo service nginx start
@@ -29,4 +34,4 @@ echo -e "Hello World!" | dd status=none of=/var/www/html/index.nginx-debian.html
 # Restarting nginx
 sudo service nginx restart
 
-echo -e "\nCompleted.\n"
+echo -e "\n${green}Completed.${reset} ✅\n"
