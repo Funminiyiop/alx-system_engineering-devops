@@ -2,6 +2,13 @@
 # Start Apache so as to return a
 # page conatining Hello Holberton
 
+# Install curl if not already installed
+apt-get update
+apt-get install -y curl
+
+# Stop Apache service
+service apache2 stop
+
 # Replace default index.html with custom page
 echo "Hello Holberton" > /usr/local/apache2/htdocs/index.html
 
