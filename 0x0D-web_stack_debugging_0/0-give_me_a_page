@@ -2,5 +2,14 @@
 # Start Apache so as to return a
 # page conatining Hello Holberton
 
+# Stop Apache service
+service apache2 stop
+
+# Replace default index.html with custom page
+echo "Hello Holberton" > /usr/local/apache2/htdocs/index.html
+
+# Start Apache service
 service apache2 start
-sudo sed -i "/Listen 80/a NameVirtualHost \*\:80" /etc/apache2/ports.conf
+
+# Exit Docker container
+exit
