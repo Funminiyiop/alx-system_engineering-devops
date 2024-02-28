@@ -10,6 +10,3 @@ echo "Hello Holberton" > /usr/local/apache2/htdocs/index.html
 
 # Start Apache service
 service apache2 start
-
-# Exit Docker container
-exit
