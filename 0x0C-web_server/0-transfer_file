@@ -1,17 +1,21 @@
 #!/usr/bin/env bash
-# This bash script transfers a file from a client to a server using scp
+# This bash script transfers a file from a client to server using scp
 
-path="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
-filename=$(basename "$BASH_SOURCE")
-brown='\e[0;33m'
-reset='\033[0m'
-file="$1"
-ip="$2"
-user="ubuntu"
-key="~/.ssh/id_rsa"
+# Assigning arguments to variables
+path_to_file=$1
+ip=$2
+username=$3
+path_to_ssh_key=$4
 
-if [ $# -eq 2 ]; then
-	scp -i "$key" -o StrictHostKeyChecking=no "$path"/"$file" "$user"@"$ip":/home/"$user"/
+# Check if correct number of arguments is provided
+if [ "$#" -lt 4 ]; then
+    echo "Usage: $0 PATH_TO_FILE IP USERNAME PATH_TO_SSH_KEY"
+    exit 1
+fi
+
+# Check if scp command was successful
+if [ $? -eq 0 ]; then
+    scp -o StrictHostKeyChecking=no -i "$path_to_ssh_key" "$path_to_file" "$username@$ip":~/
 else
-	echo -e "Usage: ${brown}$filename PATH_TO_FILE IP USERNAME PATH_TO_SSH_KEY${reset}"
+    echo "File transfer failed."
 fi
