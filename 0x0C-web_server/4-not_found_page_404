@@ -3,20 +3,11 @@
 # The page must return an HTTP 404 error code
 # The page must contain the string Ceci n'est pas une page
 
-sudo chown -R "$USER":"$USER" /var/www/html
-sudo chmod -R 755 /var/www
-
-# Backup default index
-cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
-
-# Update and installs nginx server
 sudo apt-get update
 sudo apt-get install -y nginx
 
-# Create new index page
+# code to redirect a specific endpoint (eg: redirect /redirect_me to https://akotech.com)
 echo "Hello World!" | sudo tee /var/www/html/index.html
-
-# Setting up /redirect_me to a youtube video
 string_for_replacement="server_name _;\n\trewrite ^\/redirect_me https:\/\/www.funminiyipeter.tech permanent;"
 sudo sed -i "s/server_name _;/$string_for_replacement/" /etc/nginx/sites-enabled/default
 
@@ -25,5 +16,5 @@ echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
 string_for_replacement="listen 80 default_server;\n\terror_page 404 \/404.html;\n\tlocation = \/404.html {\n\t\troot \/var\/www\/html;\n\t\tinternal;\n\t}"
 sudo sed -i "s/listen 80 default_server;/$string_for_replacement/" /etc/nginx/sites-enabled/default
 
-# Restarting nginx
+# restart the server
 sudo service nginx restart

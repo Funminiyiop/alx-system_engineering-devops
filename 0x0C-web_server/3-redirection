@@ -2,22 +2,11 @@
 # Configure your Nginx server so that /redirect_me is redirecting to another page.
 # The redirection is configured as a "301 Moved Permanently"
 
-sudo chown -R "$USER":"$USER" /var/www/html
-sudo chmod -R 755 /var/www
-
-# Backup default index
-cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
-
-# Update and installs nginx server
 sudo apt-get update
 sudo apt-get install -y nginx
 
-# Create new index page
 echo "Hello World!" | sudo tee /var/www/html/index.html
-
-# Setting up /redirect_me to a youtube video
 string_for_replacement="server_name _;\n\trewrite ^\/redirect_me https:\/\/www.funminiyipeter.tech permanent;"
 sudo sed -i "s/server_name _;/$string_for_replacement/" /etc/nginx/sites-enabled/default
 
-# Restarting nginx
 sudo service nginx restart
