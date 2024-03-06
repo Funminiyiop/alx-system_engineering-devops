@@ -7,13 +7,28 @@
 
 
 
-file="$1"
-ip="$2"
-user="ubuntu"
-key="~/.ssh/id_rsa"
+#file="$1"
+#ip="$2"
+#user="ubuntu"
+#key="~/.ssh/id_rsa"
 
-if [ $# -eq 2 ]; then
-	scp -i "$key" -o StrictHostKeyChecking=no "$path"/"$file" "$user"@"$ip":/home/"$user"/
-else
-	echo -e "Usage: ${brown}$filename PATH_TO_FILE IP USERNAME PATH_TO_SSH_KEY${reset}"
+#if [ $# -eq 2 ]; then
+#	scp -i "$key" -o StrictHostKeyChecking=no "$path"/"$file" "$user"@"$ip":/home/"$user"/
+#else
+#	echo -e "Usage: ${brown}$filename PATH_TO_FILE IP USERNAME PATH_TO_SSH_KEY${reset}"
+#fi
+
+
+# Check if number of arguments is less than 4
+if [ "$#" -lt 4 ]; then
+  echo "Usage: $0 PATH_TO_FILE IP USERNAME PATH_TO_SSH_KEY";
 fi
+
+# Assign arguments to variables
+file_path="$1"
+server_ip="$2"
+username="$3"
+ssh_key="$4"
+
+# Transfer file using scp with strict host key checking disabled
+scp -o StrictHostKeyChecking=no -i "$ssh_key" "$file_path" "$username@$server_ip":~/;
