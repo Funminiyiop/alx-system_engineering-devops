@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
-
-apt-get install nginx -y
-sed -i 's/user\s*nginx;/user $1;/g' /etc/nginx/nginx.conf
-sed -i "s/80/8080/g" /etc/nginx/sites-available/default
-chmod 644 /etc/nginx/nginx.conf
+# short and sweet fix to run user as "nginx"
 pkill apache2
-sudo -u nginx service nginx start
+chown -R nginx /etc/nginx
+chmod 770 /etc/nginx/nginx.conf
+sed -i "s/80/8080/g" /etc/nginx/sites-available/default
+sudo -u nginx service nginx restart
