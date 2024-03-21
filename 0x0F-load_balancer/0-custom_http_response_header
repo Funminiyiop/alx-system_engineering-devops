@@ -4,7 +4,6 @@
 
 # uncomment to see the script run in action
 #set -x
-
 echo -e "Updating and doing some minor checks...\n"
 
 function install() {
@@ -22,7 +21,6 @@ function install() {
 }
 
 install nginx #install nginx
-
 echo -e "\nSetting up some minor stuff.\n"
 
 # allowing nginx on firewall
