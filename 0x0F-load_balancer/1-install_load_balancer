@@ -18,6 +18,10 @@ function install() {
 	fi
 }
 
+sudo apt -y update
+sudo apt -y install nginx
+sudo service nginx start
+
 install haproxy #install haproxy
 
 echo -e "\nSetting up some minor stuff.\n"

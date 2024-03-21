@@ -20,7 +20,11 @@ function install() {
 	fi
 }
 
-install nginx #install nginx
+sudo install nginx #install nginx
+sudo apt -y update
+sudo apt -y install nginx
+sudo service nginx start
+
 echo -e "\nSetting up some minor stuff.\n"
 
 # allowing nginx on firewall
