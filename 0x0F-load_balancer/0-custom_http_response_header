@@ -5,15 +5,11 @@
 # uncomment to see the script run in action
 #set -x
 
-sudo install nginx #install nginx
-sudo apt -y update
-sudo apt -y install nginx
-sudo service nginx start
-
 
 sudo apt -y update
 sudo apt -y install nginx
 sudo service nginx start
+sudo ufw allow 'Nginx HTTP'
 sudo echo 'Hello World!' | tee /var/www/html/index.html
 sudo echo -e "Ceci n'est pas une page\n" | tee /var/www/html/404.html
 sudo echo "server {
@@ -22,9 +18,8 @@ sudo echo "server {
 
 	root /var/www/html;
 	index index.html index.htm index.nginx-debian.html;
-
-	add_header X-Served-By $HOSTNAME;
 	server_name _;
+	add_header X-Served-By \$hostname;
 
 	location /redirect_me {
 			return 301 https://www.funminiyipeter.tech;
