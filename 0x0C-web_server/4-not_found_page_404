@@ -2,25 +2,35 @@
 # Install nginx on your web-01 server
 
 # Updating Packages before performing installations
-sudo apt-get update
-sudo apt-get install -y nginx
+sudo apt -y update
+sudo apt -y install nginx
+sudo service nginx start
 
 # Creating an index.html page
-echo "Hello World!" | sudo tee /var/www/html/index.html
-
-# Performing a "moved permanently redirection" (301)
-new_string="server_name _;\n\trewrite ^\/redirect_me https:\/\/funminiyipeter.tech permanent;"
-sudo sed -i "s/server_name _;/$new_string/" /etc/nginx/sites-enabled/default
+sudo echo "Hello World!" | sudo tee /var/www/html/index.html
 
 # Creating a 404 Custom error page
-echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
-new_string="listen 80 default_server;\n\terror_page 404 \/404.html;\n\tlocation = \/404.html {\n\t\troot \/var\/www\/html;\n\t\tinternal;\n\t}"
-sudo sed -i "s/listen 80 default_server;/$new_string/" /etc/nginx/sites-enabled/default
+sudo echo -e "Ceci n'est pas une page\n" | tee /var/www/html/404.html
+sudo echo "server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
 
-# Testing configurations for syntax errors
-sudo nginx -t
+        root /var/www/html;
+        index index.html index.htm index.nginx-debian.html;
 
-# restart nginx after implementing changes
+        location /redirect_me {
+                return 301 https://www.funminiyipeter.tech;
+        }
+
+        location / {
+                try_files \$uri \$uri/ =404;
+        }
+
+        error_page 404 /404.html;
+        location = /404.html {
+                root /var/www/html;
+                internal;
+        }
+}" | sudo tee /etc/nginx/sites-enabled/default
+
 sudo service nginx restart
-
-
