@@ -1,12 +1,18 @@
 #!/usr/bin/env bash
 # install load balancer
 
-sudo apt -y update
-sudo apt -y upgrade
-sudo apt -y install haproxy
+# Uninstall previous HAproxy
+sudo service haproxy stop
+sudo apt-get purge -y haproxy
+
+# Install HAproxy.
+sudo apt update
+sudo apt install -y haproxy
+
+# Enable HAProxy to be started by the init script.
+sudo sed -i '$aENABLED=1' /etc/default/haproxy
 
 echo "
-
 frontend http_front
     bind *:80
     mode http
@@ -15,7 +21,7 @@ frontend http_front
 backend http_back
     mode http
     balance roundrobin
-    server 415321-web-01 18.207.1.251:80 check
+    server 415321-web-01 100.25.167.135:80 check
     server 415321-web-02 54.87.234.134:80 check
 " | sudo tee /etc/haproxy/haproxy.cfg
 sudo service haproxy restart
