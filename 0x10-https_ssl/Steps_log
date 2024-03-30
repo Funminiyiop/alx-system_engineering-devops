@@ -1,0 +1,71 @@
+
+Step 1: ssh into server
+** ssh ubuntu@subdomain.domain.com 
+** ssh ubuntu@domain.com 
+** ssh ubuntu@IP_Address 
+
+Step 2: Update Server
+** sudo apt update
+
+Step 3: Install snapd
+** sudo apt install snapd
+
+Step 4: Remove certbot if already installed
+** sudo apt-get remove certbot
+
+Step 5: Install certbot
+** sudo apt-get install certbot
+
+Step 6: Stop haproxy on server
+** sudo service haproxy stop
+
+Step 7: Install certbot only
+** sudo certbot certonly --standalone --preferred-challenges http --http-01-port 80 -d your_domain_name
+
+Step 8: Confirm if installation files are present
+** sudo ls /etc/letsencrypt/live/your_domain_name
+
+Step 9: Create haproxy/certs directories
+** sudo mkdir -p /etc/haproxy/certs
+
+Step 10: Move letencrypt files to haproxy dir
+** DOMAIN='your_domain_name' sudo -E bash -c 'cat /etc/letsencrypt/live/$DOMAIN/fullchain.pem /etc/letsencrypt/live/$DOMAIN/privkey.pem > /etc/haproxy/certs/$DOMAIN.pem'
+
+Step 11: Assign permission mode and rights 
+** sudo chmod -R go-rwx /etc/haproxy/certs
+
+Step 12: Edit haproxy configuration file with contents in 100-redirect_http_to_https file
+** sudo nano /etc/haproxy/haproxy.cfg
+
+Step 13: Start haproxy
+sudo service haproxy start
+
+
+
+
+
+
+
+# ----------------- Other Method ---------
+#1 ssh into the server
+
+#2 install snapd. Follow this guide https://snapcraft.io/docs/installing-snapd
+
+#3 Ensure that your version of snapd is up to date
+$ sudo snap install core; sudo snap refresh core
+
+#4 Remove certbot-auto and any Certbot OS packages
+$ sudo apt-get remove certbot
+
+#5 Install Certbot
+$ sudo snap install --classic certbot
+
+#6 Prepare the Certbot command
+$ sudo ln -s /snap/bin/certbot /usr/bin/certbot
+
+#7 Choose how you'd like to run Certbot
+$ sudo certbot certonly --standalone # if your server is not current running on the machine
+$ sudo certbot certonly --webroot # if it is running and do not want to stop it while certbot installs
+
+#8 Install your certificate
+$ sudo snap install --classic certbot
