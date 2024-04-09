@@ -12,24 +12,19 @@ def number_of_subscribers(subreddit):
         or 0 if subreddit requested is invalid
     """
     
-    
-    # Get data
-    response = requests.request(
-        'GET',
-        'https://www.reddit.com/r/{}/about.json'.format(subreddit),
-        headers={
-            'User-Agent': 'my browser'
-        },
-        allow_redirects=False
-    )
-    
-    # Check if successful
-    if response.status_code == 200:
-        # Get json data
-        try:
-            return(response.json().get('data').get('subscribers'))
-        except:
-            pass
+    url = f"https://www.reddit.com/r/{subreddit}/about.json"
+    headers = {'User-Agent': 'Custom-User-Agent'}
 
-    # Return 0 by default
-    return(0)
+    try:
+        response = requests.get(url, headers=headers)
+
+        if response.status_code == 200:
+            data = response.json()
+            subscribers = data['data']['subscribers']
+
+            return subscribers
+        else:
+            return 0
+    except Exception as e:
+        print(f"Error: {e}")
+        return 0
