@@ -9,12 +9,27 @@ def number_of_subscribers(subreddit):
         subreddit: subreddit name
     Returns:
         number of subscribers to the subreddit,
-        or 0 if subreddit requested is invalid"""
-    headers = {'User-Agent': 'linux:0x16.api.advanced:v1.0.0'}
-    url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
-    response = requests.get(url, headers=headers, allow_redirects=False)
+        or 0 if subreddit requested is invalid
+    """
+    
+    
+    # Get data
+    response = requests.request(
+        'GET',
+        'https://www.reddit.com/r/{}/about.json'.format(subreddit),
+        headers={
+            'User-Agent': 'my browser'
+        },
+        allow_redirects=False
+    )
+    
+    # Check if successful
+    if response.status_code == 200:
+        # Get json data
+        try:
+            return(response.json().get('data').get('subscribers'))
+        except:
+            pass
 
-    if response.status_code == 404:
-        return 0
-    results = response.json().get("data")
-    return results.get("subscribers")
+    # Return 0 by default
+    return(0)
